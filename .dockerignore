@@ -1,0 +1,9 @@
+target/
+.git/
+.idea/
+benchmark/
+results*/
+data/
+ad_data.csv
+*.md
+*.py

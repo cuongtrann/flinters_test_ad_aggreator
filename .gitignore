@@ -1,0 +1,25 @@
+# Java / Maven
+target/
+*.class
+*.jar
+
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+*.tmp
+*.swp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local large input data
+ad_data.csv
