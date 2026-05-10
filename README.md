@@ -53,11 +53,10 @@ Example CLI output:
 ```
 
 ## Documentation
-
+- [Development process with Claude Code](docs/development-process.md)
 - [Architecture and optimization details](docs/architecture.md)
 - [Benchmark log and raw runs](benchmark/benchmark_log.md)
 - [Setup, usage, testing, input, and output](docs/usage.md)
-- [Development process with Claude Code](docs/development-process.md)
 - [Original requirements](requirements/README.md)
 
 ## Quick Start
