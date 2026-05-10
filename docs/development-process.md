@@ -83,27 +83,18 @@ The benchmark script is [`../benchmark/run_benchmarks.py`](../benchmark/run_benc
 
 The benchmark log is [`../benchmark/benchmark_log.md`](../benchmark/benchmark_log.md). The latest real-file benchmark used a 995 MB CSV with 26,843,544 rows. It reported about 3.56s average app time and 222.4 MiB max peak heap.
 
-After the first benchmark, I reviewed the top-10 ranking step. The first approach was to sort all campaigns and take the first 10. The current approach uses a size-10 `PriorityQueue`, so only the best candidates are kept while scanning campaign stats.
+After the first benchmark, I reviewed the top-10 ranking step. The initial approach sorted all campaigns and then selected the first 10. I replaced that with a size-10 `PriorityQueue`, so the app keeps only the best candidates while scanning campaign stats.
 
-To benchmark this fairly, I created a temporary full-sort baseline. Because the repository had no initial commit yet, a clean git branch could not isolate the change, so I copied the source to `/private/tmp/adperf_sort_baseline_20260510_1` and changed `CsvWriter.selectTop(...)` to:
-
-```java
-return stats.stream()
-    .sorted(outputOrder)
-    .limit(TOP_N)
-    .toList();
-```
-
-Then I generated a high-cardinality dataset with 1,000,000 rows and 1,000,000 unique campaigns. The real file has only 50 unique campaigns, so it does not show much difference between full sort and heap top-N.
+To validate the tradeoff, I compared the heap-based approach with a full-sort baseline on a high-cardinality dataset: 1,000,000 rows and 1,000,000 unique campaigns. The real file has only 50 unique campaigns, so it is better for testing streaming throughput than ranking strategy.
 
 Top-N benchmark result:
 
-| Strategy | Runs | Avg App Time (s) | Avg Harness Wall (s) | Best Harness Wall (s) | Max Peak Heap (MiB) |
-|---|---:|---:|---:|---:|---:|
-| `priority_queue_top10` | 5 | 0.300 | 0.622 | 0.567 | 287.7 |
-| `full_sort_baseline` | 5 | 0.300 | 1.102 | 1.056 | 285.0 |
+| Strategy | Runs | Avg Harness Wall (s) | Best Harness Wall (s) | Max Peak Heap (MiB) |
+|---|---:|---:|---:|---:|
+| `priority_queue_top10` | 5 | 0.622 | 0.567 | 287.7 |
+| `full_sort_baseline` | 5 | 1.102 | 1.056 | 285.0 |
 
-The CLI app time is rounded to 0.1s, so the isolated comparison also uses harness wall time. In the high-cardinality case, `PriorityQueue` was about 44% faster. Peak heap stayed similar because most memory is used by the aggregation map.
+For this isolated comparison, I use harness wall time instead of app time. In the high-cardinality case, `PriorityQueue` was about 44% faster. Peak heap stayed similar because most memory is used by the aggregation map.
 
 Raw results are stored in the benchmark log.
 

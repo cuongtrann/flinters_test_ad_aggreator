@@ -24,27 +24,27 @@ This comparison isolates `CsvWriter.selectTop(...)`.
 - Baseline: full sort followed by `limit(10)`
 - Dataset: 1,000,000 rows, 1,000,000 unique campaigns, 36.4 MB
 
-| Strategy | Runs | Avg App Time (s) | Avg Harness Wall (s) | Best Harness Wall (s) | Max Peak Heap (MiB) |
-|---|---:|---:|---:|---:|---:|
-| `priority_queue_top10` | 5 | 0.300 | 0.622 | 0.567 | 287.7 |
-| `full_sort_baseline` | 5 | 0.300 | 1.102 | 1.056 | 285.0 |
+| Strategy | Runs | Avg Harness Wall (s) | Best Harness Wall (s) | Max Peak Heap (MiB) |
+|---|---:|---:|---:|---:|
+| `priority_queue_top10` | 5 | 0.622 | 0.567 | 287.7 |
+| `full_sort_baseline` | 5 | 1.102 | 1.056 | 285.0 |
 
 `PriorityQueue` is about 44% faster in the high-cardinality case. Peak heap is similar because the aggregation `HashMap` dominates memory.
 
 ### Top-N Raw Runs
 
-| Strategy | Run | Rows | Unique Campaigns | Size MB | App Time (s) | Harness Wall (s) | Peak Heap (MiB) | MB/s | Rows/s |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `priority_queue_top10` | 1 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 0.714 | 253.5 | 121.2 | 3,333,333 |
-| `priority_queue_top10` | 2 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 0.621 | 285.0 | 121.2 | 3,333,333 |
-| `priority_queue_top10` | 3 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 0.567 | 267.5 | 121.2 | 3,333,333 |
-| `priority_queue_top10` | 4 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 0.638 | 254.4 | 121.2 | 3,333,333 |
-| `priority_queue_top10` | 5 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 0.571 | 287.7 | 121.2 | 3,333,333 |
-| `full_sort_baseline` | 1 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 1.140 | 279.8 | 121.2 | 3,333,333 |
-| `full_sort_baseline` | 2 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 1.094 | 275.7 | 121.2 | 3,333,333 |
-| `full_sort_baseline` | 3 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 1.056 | 269.7 | 121.2 | 3,333,333 |
-| `full_sort_baseline` | 4 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 1.105 | 285.0 | 121.2 | 3,333,333 |
-| `full_sort_baseline` | 5 | 1,000,000 | 1,000,000 | 36.4 | 0.300 | 1.116 | 282.0 | 121.2 | 3,333,333 |
+| Strategy | Run | Rows | Unique Campaigns | Size MB | Harness Wall (s) | Peak Heap (MiB) | MB/s | Rows/s |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `priority_queue_top10` | 1 | 1,000,000 | 1,000,000 | 36.4 | 0.714 | 253.5 | 121.2 | 3,333,333 |
+| `priority_queue_top10` | 2 | 1,000,000 | 1,000,000 | 36.4 | 0.621 | 285.0 | 121.2 | 3,333,333 |
+| `priority_queue_top10` | 3 | 1,000,000 | 1,000,000 | 36.4 | 0.567 | 267.5 | 121.2 | 3,333,333 |
+| `priority_queue_top10` | 4 | 1,000,000 | 1,000,000 | 36.4 | 0.638 | 254.4 | 121.2 | 3,333,333 |
+| `priority_queue_top10` | 5 | 1,000,000 | 1,000,000 | 36.4 | 0.571 | 287.7 | 121.2 | 3,333,333 |
+| `full_sort_baseline` | 1 | 1,000,000 | 1,000,000 | 36.4 | 1.140 | 279.8 | 121.2 | 3,333,333 |
+| `full_sort_baseline` | 2 | 1,000,000 | 1,000,000 | 36.4 | 1.094 | 275.7 | 121.2 | 3,333,333 |
+| `full_sort_baseline` | 3 | 1,000,000 | 1,000,000 | 36.4 | 1.056 | 269.7 | 121.2 | 3,333,333 |
+| `full_sort_baseline` | 4 | 1,000,000 | 1,000,000 | 36.4 | 1.105 | 285.0 | 121.2 | 3,333,333 |
+| `full_sort_baseline` | 5 | 1,000,000 | 1,000,000 | 36.4 | 1.116 | 282.0 | 121.2 | 3,333,333 |
 
 ## Environment
 

@@ -1,6 +1,8 @@
 # Ad Performance Aggregator
 
-Fast Java 21 CLI for aggregating large ad performance CSV files by `campaign_id`.
+Fast Java CLI for aggregating large ad performance CSV files by `campaign_id`.
+
+I used Claude Code to support the coding process, including planning, implementation review, benchmarking, and documentation cleanup. The detailed process is documented in [`docs/development-process.md`](docs/development-process.md).
 
 The solution is optimized for large files: it streams the CSV line by line, keeps only campaign aggregates in memory, and uses a fixed-size `PriorityQueue` to select top-10 results without sorting every campaign.
 
@@ -61,9 +63,11 @@ Example CLI output:
 
 ## Quick Start
 
-Place the challenge CSV at the repository root as `ad_data.csv`, then run:
+Clone the repository, enter the project, and place the challenge CSV at the repository root as `ad_data.csv`.
 
 ```bash
+git clone git@github.com:cuongtrann/flinters_test_ad_aggreator.git
+cd flinters_test_ad_aggreator
 mvn package -DskipTests
 ./run.sh --input ad_data.csv --output results/
 ```
