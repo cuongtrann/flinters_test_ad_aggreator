@@ -66,8 +66,8 @@ Example CLI output:
 Clone the repository, enter the project, and place the challenge CSV at the repository root as `ad_data.csv`.
 
 ```bash
-git clone git@github.com:cuongtrann/flinters_test_ad_aggreator.git
-cd flinters_test_ad_aggreator
+git clone git@github.com:cuongtrann/flinters_test_ad_aggregator.git
+cd flinters_test_ad_aggregator
 mvn package -DskipTests
 ./run.sh --input ad_data.csv --output results/
 ```
